@@ -12,6 +12,23 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Listage de la structure de la base pour mcu
+CREATE DATABASE IF NOT EXISTS `mcu` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mcu`;
+
+-- Listage de la structure de la table mcu. actors
+CREATE TABLE IF NOT EXISTS `actors` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `prename` varchar(20) NOT NULL,
+  `birth` date NOT NULL,
+  `creation_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `uptade_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `ID_actor` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+
 -- Listage des données de la table mcu.actors : ~25 rows (environ)
 /*!40000 ALTER TABLE `actors` DISABLE KEYS */;
 INSERT INTO `actors` (`ID`, `name`, `prename`, `birth`, `creation_date`, `uptade_date`) VALUES
@@ -42,6 +59,19 @@ INSERT INTO `actors` (`ID`, `name`, `prename`, `birth`, `creation_date`, `uptade
 	(25, 'Pearce', 'Guy', '1967-10-05', '2021-07-27 12:35:44', '2021-07-27 12:35:43');
 /*!40000 ALTER TABLE `actors` ENABLE KEYS */;
 
+-- Listage de la structure de la table mcu. movies
+CREATE TABLE IF NOT EXISTS `movies` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(40) NOT NULL,
+  `release_date` year(4) NOT NULL,
+  ` duration` time(4) NOT NULL,
+  ` director` varchar(40) NOT NULL,
+  `creation_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `uptade_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  KEY `ID_movie` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
 -- Listage des données de la table mcu.movies : ~8 rows (environ)
 /*!40000 ALTER TABLE `movies` DISABLE KEYS */;
 INSERT INTO `movies` (`ID`, `title`, `release_date`, ` duration`, ` director`, `creation_date`, `uptade_date`) VALUES
@@ -54,6 +84,16 @@ INSERT INTO `movies` (`ID`, `title`, `release_date`, ` duration`, ` director`, `
 	(7, 'Iron Man 2', '2010', '02:05:00.0000', 'Jon Favreau', '2021-07-27 12:33:27', '2021-07-27 12:33:33'),
 	(8, 'Iron Man 3', '2013', '02:10:00.0000', 'Shane Black', '2021-07-27 12:33:27', '2021-07-27 12:33:34');
 /*!40000 ALTER TABLE `movies` ENABLE KEYS */;
+
+-- Listage de la structure de la table mcu. secondary
+CREATE TABLE IF NOT EXISTS `secondary` (
+  `id_actor` int(11) NOT NULL,
+  `id_movie` int(11) NOT NULL,
+  KEY `id_actor_actors` (`id_actor`),
+  KEY `id_movie_movies` (`id_movie`),
+  CONSTRAINT `id_actor_actors` FOREIGN KEY (`id_actor`) REFERENCES `actors` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_movie_movies` FOREIGN KEY (`id_movie`) REFERENCES `movies` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Listage des données de la table mcu.secondary : ~42 rows (environ)
 /*!40000 ALTER TABLE `secondary` DISABLE KEYS */;
